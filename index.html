@@ -1052,6 +1052,7 @@
             <p>Tell us about your battery and attach photos if you can.</p>
             <input type="hidden" name="_subject" value="New battery question from website" />
             <input type="hidden" name="_captcha" value="true" />
+            <input type="hidden" name="_next" />
             <input type="text" name="_honey" class="hidden-field" tabindex="-1" autocomplete="off" />
             <label>Your name <input type="text" name="name" required maxlength="100" autocomplete="name" /></label>
             <label>Email <input type="email" name="email" required maxlength="200" autocomplete="email" /></label>
@@ -1087,6 +1088,10 @@
     <script>
       document.getElementById("year").textContent = new Date().getFullYear();
 
+      const questionForm = document.querySelector(".question-form");
+      const returnUrl = new URL(window.location.href);
+      returnUrl.hash = "ask";
+      questionForm.elements.namedItem("_next").value = returnUrl.toString();
     </script>
   </body>
 </html>
