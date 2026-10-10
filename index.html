@@ -335,6 +335,96 @@
         border-radius: 0.625rem;
       }
 
+      .revival-demo {
+        padding: 52px 0;
+        border-block: 1px solid var(--cp-border);
+        background: var(--cp-bg-elevated);
+      }
+
+      .revival-demo-inner {
+        display: grid;
+        grid-template-columns: 1fr 0.9fr;
+        align-items: center;
+        gap: 48px;
+      }
+
+      .revival-demo h2 {
+        margin-bottom: 12px;
+        font-size: clamp(1.7rem, 3vw, 2.35rem);
+      }
+
+      .revival-demo-copy > p:not(.eyebrow) {
+        max-width: 520px;
+        margin-bottom: 22px;
+        color: var(--cp-text-muted);
+      }
+
+      .revival-controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 9px;
+      }
+
+      .revival-controls button {
+        min-height: 42px;
+        padding: 0 15px;
+        border: 1px solid var(--cp-border-strong);
+        border-radius: 0.625rem;
+        background: var(--cp-surface);
+        color: var(--cp-text);
+        font: inherit;
+        font-size: 0.9rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background 150ms ease, color 150ms ease, border-color 150ms ease;
+      }
+
+      .revival-controls button[aria-pressed="true"] {
+        border-color: var(--cp-accent);
+        background: var(--cp-accent);
+        color: var(--cp-accent-fg);
+      }
+
+      .revival-visual {
+        display: grid;
+        justify-items: center;
+        gap: 12px;
+        padding: 28px;
+        border: 1px solid var(--cp-border);
+        border-radius: 16px;
+        background: var(--cp-surface);
+        text-align: center;
+      }
+
+      .revival-battery {
+        width: min(100%, 250px);
+        height: auto;
+        color: var(--cp-accent);
+      }
+
+      .battery-segment {
+        fill: var(--cp-surface-soft);
+        transition: fill 260ms ease, transform 260ms ease;
+        transform-box: fill-box;
+        transform-origin: center;
+      }
+
+      .battery-segment.is-active {
+        fill: var(--cp-accent);
+        transform: scaleY(1.04);
+      }
+
+      .revival-caption {
+        margin: 0;
+        font-weight: 800;
+      }
+
+      .revival-note {
+        margin: 0;
+        color: var(--cp-text-soft);
+        font-size: 0.82rem;
+      }
+
       .service-strip {
         padding: 21px 0;
         border-block: 1px solid var(--cp-border);
@@ -651,6 +741,10 @@
           min-height: 350px;
         }
 
+        .revival-demo-inner {
+          gap: 28px;
+        }
+
         .why-grid {
           gap: 34px;
         }
@@ -707,6 +801,19 @@
 
         .hero-art {
           min-height: 300px;
+        }
+
+        .revival-demo {
+          padding: 42px 0;
+        }
+
+        .revival-demo-inner {
+          grid-template-columns: 1fr;
+          gap: 24px;
+        }
+
+        .revival-visual {
+          padding: 24px;
         }
 
         .strip-inner {
@@ -820,6 +927,38 @@
               src="assets/billy-rays-battery-revival.jpg"
               alt="Billy Ray's Battery Revival logo in navy and gold"
             />
+          </div>
+        </div>
+      </section>
+
+      <section class="revival-demo" aria-labelledby="revival-title">
+        <div class="shell revival-demo-inner">
+          <div class="revival-demo-copy">
+            <p class="eyebrow">Tested · rebuilt · revived</p>
+            <h2 id="revival-title">A better answer starts with a test.</h2>
+            <p>
+              Explore how we approach a tired battery. Every repair starts with a free test and an honest explanation of what makes sense.
+            </p>
+            <div class="revival-controls" role="group" aria-label="Explore our battery service">
+              <button type="button" data-stage="tested" aria-pressed="true">Tested</button>
+              <button type="button" data-stage="rebuilt" aria-pressed="false">Rebuilt</button>
+              <button type="button" data-stage="revived" aria-pressed="false">Revived</button>
+            </div>
+          </div>
+          <div class="revival-visual" data-stage="tested">
+            <svg class="revival-battery" viewBox="0 0 280 150" role="img" aria-labelledby="battery-title battery-description">
+              <title id="battery-title">Illustration of a battery being revived</title>
+              <desc id="battery-description">The battery illustration changes as you explore each service stage.</desc>
+              <rect x="16" y="24" width="230" height="102" rx="14" fill="none" stroke="currentColor" stroke-width="8" />
+              <path d="M252 55h14v40h-14" fill="currentColor" />
+              <rect class="battery-segment is-active" x="31" y="39" width="34" height="72" rx="5" />
+              <rect class="battery-segment" x="73" y="39" width="34" height="72" rx="5" />
+              <rect class="battery-segment" x="115" y="39" width="34" height="72" rx="5" />
+              <rect class="battery-segment" x="157" y="39" width="34" height="72" rx="5" />
+              <rect class="battery-segment" x="199" y="39" width="34" height="72" rx="5" />
+            </svg>
+            <p class="revival-caption" aria-live="polite">Start with a free test</p>
+            <p class="revival-note">Illustration only—not a battery diagnosis.</p>
           </div>
         </div>
       </section>
@@ -945,6 +1084,33 @@
     </footer>
     <script>
       document.getElementById("year").textContent = new Date().getFullYear();
+
+      const revivalDemo = document.querySelector(".revival-demo");
+      const revivalButtons = revivalDemo.querySelectorAll("[data-stage]");
+      const revivalVisual = revivalDemo.querySelector(".revival-visual");
+      const revivalSegments = revivalVisual.querySelectorAll(".battery-segment");
+      const revivalCaption = revivalVisual.querySelector(".revival-caption");
+      const stageDetails = {
+        tested: { level: 1, caption: "Start with a free test" },
+        rebuilt: { level: 3, caption: "Repair when it makes sense" },
+        revived: { level: 5, caption: "Give useful batteries a second life" },
+      };
+
+      revivalButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const stage = button.dataset.stage;
+          const details = stageDetails[stage];
+
+          revivalButtons.forEach((item) => {
+            item.setAttribute("aria-pressed", String(item === button));
+          });
+          revivalVisual.dataset.stage = stage;
+          revivalCaption.textContent = details.caption;
+          revivalSegments.forEach((segment, index) => {
+            segment.classList.toggle("is-active", index < details.level);
+          });
+        });
+      });
     </script>
   </body>
 </html>
