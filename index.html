@@ -856,6 +856,13 @@
           transition-duration: 0.01ms !important;
         }
       }
+      .question-section { padding: 3rem 0; }
+      .question-form { max-width: 640px; margin: 0 auto; display: grid; gap: 1rem; }
+      .question-form h2 { margin: 0; }
+      .question-form label { display: grid; gap: 0.35rem; font-weight: 600; color: var(--cp-text); }
+      .question-form input, .question-form textarea { font: inherit; padding: 0.7rem; border: 1px solid var(--cp-border-strong); border-radius: 8px; background: var(--cp-surface); color: var(--cp-text); }
+      .question-form button { justify-self: start; border: 0; cursor: pointer; font: inherit; }
+      .hidden-field { display: none; }
     </style>
   </head>
   <body>
@@ -1035,6 +1042,24 @@
             </div>
             <a class="button" href="tel:+19188086082">Call now</a>
           </aside>
+        </div>
+      </section>
+
+      <section class="section question-section" id="ask">
+        <div class="shell">
+          <form class="question-form" action="https://formsubmit.co/billysraybattery@gmail.com" method="POST" enctype="multipart/form-data">
+            <h2>Send us a question</h2>
+            <p>Tell us about your battery and attach photos if you can.</p>
+            <input type="hidden" name="_subject" value="New battery question from website" />
+            <input type="hidden" name="_captcha" value="true" />
+            <input type="text" name="_honey" class="hidden-field" tabindex="-1" autocomplete="off" />
+            <label>Your name <input type="text" name="name" required maxlength="100" autocomplete="name" /></label>
+            <label>Email <input type="email" name="email" required maxlength="200" autocomplete="email" /></label>
+            <label>Phone (optional) <input type="tel" name="phone" maxlength="30" autocomplete="tel" /></label>
+            <label>Your question <textarea name="message" rows="5" required maxlength="3000"></textarea></label>
+            <label>Battery photos <input type="file" name="attachment" accept="image/*" multiple /></label>
+            <button class="button" type="submit">Send question</button>
+          </form>
         </div>
       </section>
 
